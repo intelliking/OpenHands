@@ -73,8 +73,10 @@ def test_disabled_repo_microagent_excluded_from_workspace_context(
 ):
     """Disabled repo microagents should NOT appear in repo_instructions."""
     # Patch global/user dirs to empty to avoid loading real agents
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -117,8 +119,10 @@ def test_disabled_repo_microagent_excluded_from_workspace_context(
 
 def test_non_disabled_repo_microagents_included(file_store, event_stream):
     """When disabled_microagents is empty, all repo microagents appear."""
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -131,9 +135,7 @@ def test_non_disabled_repo_microagents_included(file_store, event_stream):
     }
     memory.set_repository_info('owner/repo', '/workspace/repo')
 
-    recall_action = RecallAction(
-        query='Test', recall_type=RecallType.WORKSPACE_CONTEXT
-    )
+    recall_action = RecallAction(query='Test', recall_type=RecallType.WORKSPACE_CONTEXT)
     recall_action._source = EventSource.USER
     event_stream.add_event(recall_action, EventSource.USER)
 
@@ -156,8 +158,10 @@ def test_disabled_mcp_tools_excluded(file_store, event_stream):
         ],
     )
 
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -187,8 +191,10 @@ def test_non_disabled_mcp_tools_included(file_store, event_stream):
         ],
     )
 
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -196,12 +202,8 @@ def test_non_disabled_mcp_tools_included(file_store, event_stream):
         )
 
     memory.repo_microagents = {
-        'agent_a': _make_repo_microagent(
-            'agent_a', 'Agent A', mcp_tools=mcp_config
-        ),
-        'agent_b': _make_repo_microagent(
-            'agent_b', 'Agent B', mcp_tools=mcp_config
-        ),
+        'agent_a': _make_repo_microagent('agent_a', 'Agent A', mcp_tools=mcp_config),
+        'agent_b': _make_repo_microagent('agent_b', 'Agent B', mcp_tools=mcp_config),
     }
 
     mcp_configs = memory.get_microagent_mcp_tools()
@@ -213,8 +215,10 @@ async def test_disabled_knowledge_microagent_excluded_from_recall():
     """Disabled knowledge microagents should NOT trigger on keyword matches."""
     event_stream = MagicMock(spec=EventStream)
 
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -244,8 +248,10 @@ async def test_disabled_knowledge_microagent_excluded_from_recall():
 
 def test_disabled_microagents_defaults_to_empty(file_store, event_stream):
     """When disabled_microagents is not provided, it defaults to an empty list."""
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -256,8 +262,10 @@ def test_disabled_microagents_defaults_to_empty(file_store, event_stream):
 
 def test_disabled_microagents_none_treated_as_empty(file_store, event_stream):
     """When disabled_microagents is None, it is treated as an empty list."""
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -269,8 +277,10 @@ def test_disabled_microagents_none_treated_as_empty(file_store, event_stream):
 
 def test_multiple_disabled_microagents(file_store, event_stream):
     """Multiple microagents can be disabled simultaneously."""
-    with patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'), \
-         patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'):
+    with (
+        patch('openhands.memory.memory.GLOBAL_MICROAGENTS_DIR', '/nonexistent'),
+        patch('openhands.memory.memory.USER_MICROAGENTS_DIR', '/nonexistent'),
+    ):
         memory = Memory(
             event_stream=event_stream,
             sid='test-session',
@@ -284,9 +294,7 @@ def test_multiple_disabled_microagents(file_store, event_stream):
     }
     memory.set_repository_info('owner/repo', '/workspace/repo')
 
-    recall_action = RecallAction(
-        query='Test', recall_type=RecallType.WORKSPACE_CONTEXT
-    )
+    recall_action = RecallAction(query='Test', recall_type=RecallType.WORKSPACE_CONTEXT)
     recall_action._source = EventSource.USER
     event_stream.add_event(recall_action, EventSource.USER)
 

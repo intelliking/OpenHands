@@ -106,7 +106,9 @@ function SkillsSettingsScreen() {
                 </SettingsSwitch>
                 {skill.triggers && skill.triggers.length > 0 && (
                   <span className="text-xs text-neutral-500 ml-14">
-                    Triggers: {skill.triggers.join(", ")}
+                    {t(I18nKey.SETTINGS$SKILLS_TRIGGERS, {
+                      triggers: skill.triggers.join(", "),
+                    })}
                   </span>
                 )}
                 <span className="text-xs text-neutral-500 ml-14">

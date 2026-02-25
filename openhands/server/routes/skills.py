@@ -1,11 +1,10 @@
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 from openhands.core.logger import openhands_logger as logger
 from openhands.memory.memory import GLOBAL_MICROAGENTS_DIR, USER_MICROAGENTS_DIR
 from openhands.microagent import load_microagents_from_dir
 from openhands.server.dependencies import get_dependencies
-
-from pydantic import BaseModel
 
 app = APIRouter(prefix='/api', dependencies=get_dependencies())
 
@@ -41,22 +40,24 @@ async def list_skills() -> SkillListResponse:
         repo_agents, knowledge_agents = load_microagents_from_dir(
             GLOBAL_MICROAGENTS_DIR
         )
-        for agent in repo_agents.values():
+        for repo_agent in repo_agents.values():
             skills.append(
                 SkillInfo(
-                    name=agent.name,
-                    type=agent.type.value,
+                    name=repo_agent.name,
+                    type=repo_agent.type.value,
                     source='global',
                 )
             )
-        for agent in knowledge_agents.values():
+        for knowledge_agent in knowledge_agents.values():
             triggers = (
-                agent.metadata.triggers if agent.metadata.triggers else None
+                knowledge_agent.metadata.triggers
+                if knowledge_agent.metadata.triggers
+                else None
             )
             skills.append(
                 SkillInfo(
-                    name=agent.name,
-                    type=agent.type.value,
+                    name=knowledge_agent.name,
+                    type=knowledge_agent.type.value,
                     source='global',
                     triggers=triggers,
                 )
@@ -66,25 +67,25 @@ async def list_skills() -> SkillListResponse:
 
     # Load user-level skills
     try:
-        repo_agents, knowledge_agents = load_microagents_from_dir(
-            USER_MICROAGENTS_DIR
-        )
-        for agent in repo_agents.values():
+        repo_agents, knowledge_agents = load_microagents_from_dir(USER_MICROAGENTS_DIR)
+        for repo_agent in repo_agents.values():
             skills.append(
                 SkillInfo(
-                    name=agent.name,
-                    type=agent.type.value,
+                    name=repo_agent.name,
+                    type=repo_agent.type.value,
                     source='user',
                 )
             )
-        for agent in knowledge_agents.values():
+        for knowledge_agent in knowledge_agents.values():
             triggers = (
-                agent.metadata.triggers if agent.metadata.triggers else None
+                knowledge_agent.metadata.triggers
+                if knowledge_agent.metadata.triggers
+                else None
             )
             skills.append(
                 SkillInfo(
-                    name=agent.name,
-                    type=agent.type.value,
+                    name=knowledge_agent.name,
+                    type=knowledge_agent.type.value,
                     source='user',
                     triggers=triggers,
                 )

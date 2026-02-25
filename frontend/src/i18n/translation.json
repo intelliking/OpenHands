@@ -16202,5 +16202,8 @@
   },
   "SETTINGS$SKILLS_NO_SKILLS": {
     "en": "No skills found."
+  },
+  "SETTINGS$SKILLS_TRIGGERS": {
+    "en": "Triggers: {{triggers}}"
   }
 }

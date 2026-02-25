@@ -16224,7 +16224,7 @@
     "uk": "Навички"
   },
   "SETTINGS$SKILLS_DESCRIPTION": {
-    "en": "Enable or disable default skills (microagents). Disabled skills will not be loaded into agent context.",
+    "en": "Enable or disable default skills. Disabled skills will not be loaded into agent context.",
     "ja": "デフォルトスキル（マイクロエージェント）を有効または無効にします。無効なスキルはエージェントコンテキストに読み込まれません。",
     "zh-CN": "启用或禁用默认技能（微代理）。禁用的技能不会加载到代理上下文中。",
     "zh-TW": "啟用或停用預設技能（微代理）。停用的技能不會載入到代理上下文中。",

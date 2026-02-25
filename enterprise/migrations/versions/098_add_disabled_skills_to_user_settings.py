@@ -1,4 +1,4 @@
-"""add disabled_microagents to user_settings
+"""add disabled_skills to user_settings
 
 Revision ID: 098
 Revises: 097
@@ -20,9 +20,9 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.add_column(
-        'user_settings', sa.Column('disabled_microagents', sa.JSON(), nullable=True)
+        'user_settings', sa.Column('disabled_skills', sa.JSON(), nullable=True)
     )
 
 
 def downgrade() -> None:
-    op.drop_column('user_settings', 'disabled_microagents')
+    op.drop_column('user_settings', 'disabled_skills')

@@ -181,7 +181,7 @@ class AppConversationServiceBase(AppConversationService, ABC):
         remote_workspace: AsyncRemoteWorkspace,
         selected_repository: str | None,
         working_dir: str,
-        disabled_microagents: list[str] | None = None,
+        disabled_skills: list[str] | None = None,
     ):
         """Load all skills and update agent with them.
 
@@ -190,7 +190,7 @@ class AppConversationServiceBase(AppConversationService, ABC):
             remote_workspace: AsyncRemoteWorkspace for loading repo skills
             selected_repository: Repository name or None
             working_dir: Working directory path
-            disabled_microagents: Optional list of skill names to exclude
+            disabled_skills: Optional list of skill names to exclude
 
         Returns:
             Updated agent with skills loaded into context
@@ -203,8 +203,8 @@ class AppConversationServiceBase(AppConversationService, ABC):
         )
 
         # Filter out disabled skills
-        if disabled_microagents:
-            disabled_set = set(disabled_microagents)
+        if disabled_skills:
+            disabled_set = set(disabled_skills)
             all_skills = [s for s in all_skills if s.name not in disabled_set]
 
         # Update agent with skills

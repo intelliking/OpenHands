@@ -148,7 +148,6 @@ async def run_controller(
             repo_directory=repo_directory,
             conversation_instructions=conversation_instructions,
             working_dir=str(runtime.workspace_root),
-            disabled_microagents=agent.config.disabled_microagents,
         )
 
     # Add MCP tools to the agent

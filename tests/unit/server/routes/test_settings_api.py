@@ -155,13 +155,13 @@ async def test_search_api_key_preservation(test_client):
 
 
 @pytest.mark.asyncio
-async def test_disabled_microagents_persistence(test_client):
-    """Test that disabled_microagents can be saved and retrieved via the settings API."""
-    # 1. Save settings with disabled_microagents
+async def test_disabled_skills_persistence(test_client):
+    """Test that disabled_skills can be saved and retrieved via the settings API."""
+    # 1. Save settings with disabled_skills
     settings_data = {
         'llm_model': 'test-model',
         'llm_api_key': 'test-key',
-        'disabled_microagents': ['agent_a', 'agent_b'],
+        'disabled_skills': ['skill_a', 'skill_b'],
     }
     response = test_client.post('/api/settings', json=settings_data)
     assert response.status_code == 200
@@ -170,11 +170,11 @@ async def test_disabled_microagents_persistence(test_client):
     response = test_client.get('/api/settings')
     assert response.status_code == 200
     data = response.json()
-    assert data['disabled_microagents'] == ['agent_a', 'agent_b']
+    assert data['disabled_skills'] == ['skill_a', 'skill_b']
 
     # 3. Update with a different list
     update_settings = {
-        'disabled_microagents': ['agent_c'],
+        'disabled_skills': ['skill_c'],
     }
     response = test_client.post('/api/settings', json=update_settings)
     assert response.status_code == 200
@@ -182,11 +182,11 @@ async def test_disabled_microagents_persistence(test_client):
     response = test_client.get('/api/settings')
     assert response.status_code == 200
     data = response.json()
-    assert data['disabled_microagents'] == ['agent_c']
+    assert data['disabled_skills'] == ['skill_c']
 
     # 4. Clear the list
     update_settings = {
-        'disabled_microagents': [],
+        'disabled_skills': [],
     }
     response = test_client.post('/api/settings', json=update_settings)
     assert response.status_code == 200
@@ -194,4 +194,4 @@ async def test_disabled_microagents_persistence(test_client):
     response = test_client.get('/api/settings')
     assert response.status_code == 200
     data = response.json()
-    assert data['disabled_microagents'] == []
+    assert data['disabled_skills'] == []

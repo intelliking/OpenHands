@@ -44,7 +44,7 @@ class Settings(BaseModel):
     sandbox_base_container_image: str | None = None
     sandbox_runtime_container_image: str | None = None
     mcp_config: MCPConfig | None = None
-    disabled_microagents: list[str] | None = None
+    disabled_skills: list[str] | None = None
     search_api_key: SecretStr | None = None
     sandbox_api_key: SecretStr | None = None
     max_budget_per_task: float | None = None
@@ -145,9 +145,9 @@ class Settings(BaseModel):
         if hasattr(app_config, 'mcp'):
             mcp_config = app_config.mcp
 
-        # Get disabled_microagents from agent config if available
+        # Get disabled_skills from agent config if available
         agent_config = app_config.get_agent_config()
-        disabled_microagents = agent_config.disabled_microagents or None
+        disabled_skills = agent_config.disabled_microagents or None
 
         settings = Settings(
             language='en',
@@ -162,7 +162,7 @@ class Settings(BaseModel):
             mcp_config=mcp_config,
             search_api_key=app_config.search_api_key,
             max_budget_per_task=app_config.max_budget_per_task,
-            disabled_microagents=disabled_microagents,
+            disabled_skills=disabled_skills,
         )
         return settings
 

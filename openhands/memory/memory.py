@@ -50,20 +50,17 @@ class Memory:
     loop: asyncio.AbstractEventLoop | None
     repo_microagents: dict[str, RepoMicroagent]
     knowledge_microagents: dict[str, KnowledgeMicroagent]
-    disabled_microagents: list[str]
 
     def __init__(
         self,
         event_stream: EventStream,
         sid: str,
         status_callback: Callable | None = None,
-        disabled_microagents: list[str] | None = None,
     ):
         self.event_stream = event_stream
         self.sid = sid if sid else str(uuid.uuid4())
         self.status_callback = status_callback
         self.loop = None
-        self.disabled_microagents = disabled_microagents or []
 
         self.event_stream.subscribe(
             EventStreamSubscriber.MEMORY,
@@ -157,11 +154,8 @@ class Memory:
         # Collect raw repository instructions
         repo_instructions = ''
 
-        # Retrieve the context of repo instructions from all repo microagents,
-        # excluding any that are in the disabled list
+        # Retrieve the context of repo instructions from all repo microagents
         for microagent in self.repo_microagents.values():
-            if microagent.name in self.disabled_microagents:
-                continue
             if repo_instructions:
                 repo_instructions += '\n\n'
             repo_instructions += microagent.content
@@ -261,10 +255,8 @@ class Memory:
         if not query:
             return recalled_content
 
-        # Search for microagent triggers in the query, skipping disabled ones
+        # Search for microagent triggers in the query
         for name, microagent in self.knowledge_microagents.items():
-            if microagent.name in self.disabled_microagents:
-                continue
             trigger = microagent.match_trigger(query)
             if trigger:
                 logger.info("Microagent '%s' triggered by keyword '%s'", name, trigger)
@@ -295,18 +287,13 @@ class Memory:
 
     def _load_global_microagents(self) -> None:
         """Loads microagents from the global microagents_dir"""
-        try:
-            repo_agents, knowledge_agents = load_microagents_from_dir(
-                GLOBAL_MICROAGENTS_DIR
-            )
-            for name, agent_knowledge in knowledge_agents.items():
-                self.knowledge_microagents[name] = agent_knowledge
-            for name, agent_repo in repo_agents.items():
-                self.repo_microagents[name] = agent_repo
-        except Exception as e:
-            logger.warning(
-                f'Failed to load global microagents from {GLOBAL_MICROAGENTS_DIR}: {str(e)}'
-            )
+        repo_agents, knowledge_agents = load_microagents_from_dir(
+            GLOBAL_MICROAGENTS_DIR
+        )
+        for name, agent_knowledge in knowledge_agents.items():
+            self.knowledge_microagents[name] = agent_knowledge
+        for name, agent_repo in repo_agents.items():
+            self.repo_microagents[name] = agent_repo
 
     def _load_user_microagents(self) -> None:
         """Loads microagents from the user's home directory (~/.openhands/microagents/)
@@ -331,18 +318,15 @@ class Memory:
             )
 
     def get_microagent_mcp_tools(self) -> list[MCPConfig]:
-        """Get MCP tools from all repo microagents (always active),
-        excluding those in the disabled list.
+        """Get MCP tools from all repo microagents (always active)
 
         Returns:
             A list of MCP tools configurations from microagents
         """
         mcp_configs: list[MCPConfig] = []
 
-        # Check all repo microagents for MCP tools, skipping disabled ones
+        # Check all repo microagents for MCP tools (always active)
         for agent in self.repo_microagents.values():
-            if agent.name in self.disabled_microagents:
-                continue
             if agent.metadata.mcp_tools:
                 mcp_configs.append(agent.metadata.mcp_tools)
                 logger.debug(

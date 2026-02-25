@@ -25,10 +25,10 @@ function SkillsSettingsScreen() {
 
   // Sync local state with server settings when data first arrives
   React.useEffect(() => {
-    if (settings?.disabled_microagents) {
-      setDisabledSet(new Set(settings.disabled_microagents));
+    if (settings?.disabled_skills) {
+      setDisabledSet(new Set(settings.disabled_skills));
     }
-  }, [settings?.disabled_microagents]);
+  }, [settings?.disabled_skills]);
 
   const handleToggle = (skillName: string, enabled: boolean) => {
     setDisabledSet((prev) => {
@@ -45,7 +45,7 @@ function SkillsSettingsScreen() {
 
   const handleSave = () => {
     saveSettings(
-      { disabled_microagents: Array.from(disabledSet) },
+      { disabled_skills: Array.from(disabledSet) },
       {
         onSuccess: () => {
           displaySuccessToast(t(I18nKey.SETTINGS$SAVED));

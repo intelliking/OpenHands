@@ -966,7 +966,7 @@ class TestLiveStatusAppConversationService:
             remote_workspace,
             'test_repo',
             '/test/dir',
-            disabled_microagents=self.mock_user.disabled_microagents,
+            disabled_skills=self.mock_user.disabled_skills,
         )
 
     @pytest.mark.asyncio

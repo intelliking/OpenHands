@@ -1143,7 +1143,7 @@ class LiveStatusAppConversationService(AppConversationServiceBase):
                     remote_workspace,
                     selected_repository,
                     working_dir,
-                    disabled_microagents=user.disabled_microagents,
+                    disabled_skills=user.disabled_skills,
                 )
             except Exception as e:
                 _logger.warning(f'Failed to load skills: {e}', exc_info=True)

@@ -145,6 +145,10 @@ class Settings(BaseModel):
         if hasattr(app_config, 'mcp'):
             mcp_config = app_config.mcp
 
+        # Get disabled_microagents from agent config if available
+        agent_config = app_config.get_agent_config()
+        disabled_microagents = agent_config.disabled_microagents or None
+
         settings = Settings(
             language='en',
             agent=app_config.default_agent,
@@ -158,6 +162,7 @@ class Settings(BaseModel):
             mcp_config=mcp_config,
             search_api_key=app_config.search_api_key,
             max_budget_per_task=app_config.max_budget_per_task,
+            disabled_microagents=disabled_microagents,
         )
         return settings
 

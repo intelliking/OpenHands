@@ -295,13 +295,18 @@ class Memory:
 
     def _load_global_microagents(self) -> None:
         """Loads microagents from the global microagents_dir"""
-        repo_agents, knowledge_agents = load_microagents_from_dir(
-            GLOBAL_MICROAGENTS_DIR
-        )
-        for name, agent_knowledge in knowledge_agents.items():
-            self.knowledge_microagents[name] = agent_knowledge
-        for name, agent_repo in repo_agents.items():
-            self.repo_microagents[name] = agent_repo
+        try:
+            repo_agents, knowledge_agents = load_microagents_from_dir(
+                GLOBAL_MICROAGENTS_DIR
+            )
+            for name, agent_knowledge in knowledge_agents.items():
+                self.knowledge_microagents[name] = agent_knowledge
+            for name, agent_repo in repo_agents.items():
+                self.repo_microagents[name] = agent_repo
+        except Exception as e:
+            logger.warning(
+                f'Failed to load global microagents from {GLOBAL_MICROAGENTS_DIR}: {str(e)}'
+            )
 
     def _load_user_microagents(self) -> None:
         """Loads microagents from the user's home directory (~/.openhands/microagents/)

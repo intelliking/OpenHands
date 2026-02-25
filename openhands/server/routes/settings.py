@@ -197,6 +197,12 @@ async def store_settings(
                     existing_settings.user_consents_to_analytics
                 )
 
+            # Keep existing disabled_microagents if not provided
+            if settings.disabled_microagents is None:
+                settings.disabled_microagents = (
+                    existing_settings.disabled_microagents
+                )
+
         # Update sandbox config with new settings
         if settings.remote_runtime_resource_factor is not None:
             config.sandbox.remote_runtime_resource_factor = (

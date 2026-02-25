@@ -111,7 +111,6 @@ class AgentSession:
         initial_message: MessageAction | None = None,
         conversation_instructions: str | None = None,
         replay_json: str | None = None,
-        disabled_microagents: list[str] | None = None,
     ) -> None:
         """Starts the Agent session
         Parameters:
@@ -169,7 +168,7 @@ class AgentSession:
                 conversation_instructions=conversation_instructions,
                 custom_secrets_descriptions=custom_secrets_handler.get_custom_secrets_descriptions(),
                 working_dir=config.workspace_mount_path_in_sandbox,
-                disabled_microagents=disabled_microagents,
+                disabled_microagents=agent.config.disabled_microagents,
             )
 
             # NOTE: this needs to happen before controller is created

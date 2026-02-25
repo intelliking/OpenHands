@@ -1,5 +1,6 @@
 import CreditCardIcon from "#/icons/credit-card.svg?react";
 import KeyIcon from "#/icons/key.svg?react";
+import LightbulbIcon from "#/icons/lightbulb.svg?react";
 import ServerProcessIcon from "#/icons/server-process.svg?react";
 import SettingsGearIcon from "#/icons/settings-gear.svg?react";
 import CircuitIcon from "#/icons/u-circuit.svg?react";
@@ -49,6 +50,11 @@ export const SAAS_NAV_ITEMS: SettingsNavItem[] = [
     text: "SETTINGS$NAV_API_KEYS",
   },
   {
+    icon: <LightbulbIcon width={22} height={22} />,
+    to: "/settings/skills",
+    text: "SETTINGS$NAV_SKILLS",
+  },
+  {
     icon: <ServerProcessIcon width={22} height={22} />,
     to: "/settings/mcp",
     text: "SETTINGS$NAV_MCP",
@@ -65,6 +71,11 @@ export const OSS_NAV_ITEMS: SettingsNavItem[] = [
     icon: <ServerProcessIcon width={22} height={22} />,
     to: "/settings/mcp",
     text: "SETTINGS$NAV_MCP",
+  },
+  {
+    icon: <LightbulbIcon width={22} height={22} />,
+    to: "/settings/skills",
+    text: "SETTINGS$NAV_SKILLS",
   },
   {
     icon: <PuzzlePieceIcon width={22} height={22} />,

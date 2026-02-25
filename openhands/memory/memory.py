@@ -50,17 +50,20 @@ class Memory:
     loop: asyncio.AbstractEventLoop | None
     repo_microagents: dict[str, RepoMicroagent]
     knowledge_microagents: dict[str, KnowledgeMicroagent]
+    disabled_microagents: list[str]
 
     def __init__(
         self,
         event_stream: EventStream,
         sid: str,
         status_callback: Callable | None = None,
+        disabled_microagents: list[str] | None = None,
     ):
         self.event_stream = event_stream
         self.sid = sid if sid else str(uuid.uuid4())
         self.status_callback = status_callback
         self.loop = None
+        self.disabled_microagents = disabled_microagents or []
 
         self.event_stream.subscribe(
             EventStreamSubscriber.MEMORY,
@@ -154,8 +157,11 @@ class Memory:
         # Collect raw repository instructions
         repo_instructions = ''
 
-        # Retrieve the context of repo instructions from all repo microagents
+        # Retrieve the context of repo instructions from all repo microagents,
+        # excluding any that are in the disabled list
         for microagent in self.repo_microagents.values():
+            if microagent.name in self.disabled_microagents:
+                continue
             if repo_instructions:
                 repo_instructions += '\n\n'
             repo_instructions += microagent.content
@@ -255,8 +261,10 @@ class Memory:
         if not query:
             return recalled_content
 
-        # Search for microagent triggers in the query
+        # Search for microagent triggers in the query, skipping disabled ones
         for name, microagent in self.knowledge_microagents.items():
+            if microagent.name in self.disabled_microagents:
+                continue
             trigger = microagent.match_trigger(query)
             if trigger:
                 logger.info("Microagent '%s' triggered by keyword '%s'", name, trigger)
@@ -318,15 +326,18 @@ class Memory:
             )
 
     def get_microagent_mcp_tools(self) -> list[MCPConfig]:
-        """Get MCP tools from all repo microagents (always active)
+        """Get MCP tools from all repo microagents (always active),
+        excluding those in the disabled list.
 
         Returns:
             A list of MCP tools configurations from microagents
         """
         mcp_configs: list[MCPConfig] = []
 
-        # Check all repo microagents for MCP tools (always active)
+        # Check all repo microagents for MCP tools, skipping disabled ones
         for agent in self.repo_microagents.values():
+            if agent.name in self.disabled_microagents:
+                continue
             if agent.metadata.mcp_tools:
                 mcp_configs.append(agent.metadata.mcp_tools)
                 logger.debug(

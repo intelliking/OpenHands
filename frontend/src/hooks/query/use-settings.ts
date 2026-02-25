@@ -17,6 +17,8 @@ const getSettingsQueryFn = async (): Promise<Settings> => {
     git_user_name: settings.git_user_name || DEFAULT_SETTINGS.git_user_name,
     git_user_email: settings.git_user_email || DEFAULT_SETTINGS.git_user_email,
     is_new_user: false,
+    disabled_microagents:
+      settings.disabled_microagents ?? DEFAULT_SETTINGS.disabled_microagents,
     v1_enabled: settings.v1_enabled ?? DEFAULT_SETTINGS.v1_enabled,
   };
 };

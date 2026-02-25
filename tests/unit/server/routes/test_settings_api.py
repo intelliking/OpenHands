@@ -152,3 +152,46 @@ async def test_search_api_key_preservation(test_client):
     assert response.json()['search_api_key_set'] is True
     # Verify the other field updated correctly
     assert response.json()['llm_model'] == 'claude-3-opus'
+
+
+@pytest.mark.asyncio
+async def test_disabled_microagents_persistence(test_client):
+    """Test that disabled_microagents can be saved and retrieved via the settings API."""
+    # 1. Save settings with disabled_microagents
+    settings_data = {
+        'llm_model': 'test-model',
+        'llm_api_key': 'test-key',
+        'disabled_microagents': ['agent_a', 'agent_b'],
+    }
+    response = test_client.post('/api/settings', json=settings_data)
+    assert response.status_code == 200
+
+    # 2. Retrieve and verify
+    response = test_client.get('/api/settings')
+    assert response.status_code == 200
+    data = response.json()
+    assert data['disabled_microagents'] == ['agent_a', 'agent_b']
+
+    # 3. Update with a different list
+    update_settings = {
+        'disabled_microagents': ['agent_c'],
+    }
+    response = test_client.post('/api/settings', json=update_settings)
+    assert response.status_code == 200
+
+    response = test_client.get('/api/settings')
+    assert response.status_code == 200
+    data = response.json()
+    assert data['disabled_microagents'] == ['agent_c']
+
+    # 4. Clear the list
+    update_settings = {
+        'disabled_microagents': [],
+    }
+    response = test_client.post('/api/settings', json=update_settings)
+    assert response.status_code == 200
+
+    response = test_client.get('/api/settings')
+    assert response.status_code == 200
+    data = response.json()
+    assert data['disabled_microagents'] == []

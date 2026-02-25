@@ -38,6 +38,13 @@ export type MCPConfig = {
   shttp_servers: (string | MCPSHTTPServer)[];
 };
 
+export type SkillInfo = {
+  name: string;
+  type: string;
+  source: string;
+  triggers?: string[];
+};
+
 export type Settings = {
   llm_model: string;
   llm_base_url: string;
@@ -60,6 +67,7 @@ export type Settings = {
   search_api_key?: string;
   is_new_user?: boolean;
   mcp_config?: MCPConfig;
+  disabled_microagents?: string[];
   max_budget_per_task: number | null;
   email?: string;
   email_verified?: boolean;

@@ -223,6 +223,9 @@ class WebSession:
         agent_config = self.config.get_agent_config(agent_cls)
         # Pass runtime information to agent config for runtime-specific tool behavior
         agent_config.runtime = self.config.runtime
+        # Apply user-level disabled microagents from settings
+        if settings.disabled_microagents:
+            agent_config.disabled_microagents = settings.disabled_microagents
         agent_name = agent_cls if agent_cls is not None else 'agent'
         llm_config = self.config.get_llm_config_from_agent(agent_name)
         if settings.enable_default_condenser:
@@ -288,6 +291,7 @@ class WebSession:
                 initial_message=initial_message,
                 conversation_instructions=conversation_instructions,
                 replay_json=replay_json,
+                disabled_microagents=settings.disabled_microagents,
             )
         except MicroagentValidationError as e:
             self.logger.exception(f'Error creating agent_session: {e}')

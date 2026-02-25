@@ -111,6 +111,7 @@ class AgentSession:
         initial_message: MessageAction | None = None,
         conversation_instructions: str | None = None,
         replay_json: str | None = None,
+        disabled_microagents: list[str] | None = None,
     ) -> None:
         """Starts the Agent session
         Parameters:
@@ -168,6 +169,7 @@ class AgentSession:
                 conversation_instructions=conversation_instructions,
                 custom_secrets_descriptions=custom_secrets_handler.get_custom_secrets_descriptions(),
                 working_dir=config.workspace_mount_path_in_sandbox,
+                disabled_microagents=disabled_microagents,
             )
 
             # NOTE: this needs to happen before controller is created
@@ -461,11 +463,13 @@ class AgentSession:
         conversation_instructions: str | None,
         custom_secrets_descriptions: dict[str, str],
         working_dir: str,
+        disabled_microagents: list[str] | None = None,
     ) -> Memory:
         memory = Memory(
             event_stream=self.event_stream,
             sid=self.sid,
             status_callback=self._status_callback,
+            disabled_microagents=disabled_microagents,
         )
 
         if self.runtime:

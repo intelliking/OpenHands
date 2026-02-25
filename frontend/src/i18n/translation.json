@@ -16190,5 +16190,17 @@
     "tr": "Bağlantı panoya kopyalandı",
     "de": "Link in die Zwischenablage kopiert",
     "uk": "Посилання скопійовано в буфер обміну"
+  },
+  "SETTINGS$NAV_SKILLS": {
+    "en": "Skills"
+  },
+  "SETTINGS$SKILLS_TITLE": {
+    "en": "Skills"
+  },
+  "SETTINGS$SKILLS_DESCRIPTION": {
+    "en": "Enable or disable default skills (microagents). Disabled skills will not be loaded into agent context."
+  },
+  "SETTINGS$SKILLS_NO_SKILLS": {
+    "en": "No skills found."
   }
 }

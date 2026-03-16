@@ -1,3 +1,4 @@
+import { FiUsers, FiBriefcase } from "react-icons/fi";
 import CreditCardIcon from "#/icons/credit-card.svg?react";
 import KeyIcon from "#/icons/key.svg?react";
 import LightbulbIcon from "#/icons/lightbulb.svg?react";
@@ -58,6 +59,16 @@ export const SAAS_NAV_ITEMS: SettingsNavItem[] = [
     icon: <ServerProcessIcon width={22} height={22} />,
     to: "/settings/mcp",
     text: "SETTINGS$NAV_MCP",
+  },
+  {
+    to: "/settings/org-members",
+    text: "Organization Members",
+    icon: <FiUsers size={22} />,
+  },
+  {
+    to: "/settings/org",
+    text: "Organization",
+    icon: <FiBriefcase size={22} />,
   },
 ];
 

@@ -20,3 +20,5 @@ export const ENABLE_TRAJECTORY_REPLAY = () =>
 export const ENABLE_ONBOARDING = () => loadFeatureFlag("ENABLE_ONBOARDING");
 export const ENABLE_SANDBOX_GROUPING = () =>
   loadFeatureFlag("SANDBOX_GROUPING");
+export const ENABLE_PROJ_USER_JOURNEY = () =>
+  loadFeatureFlag("PROJ_USER_JOURNEY");

@@ -163,10 +163,6 @@ class Settings(BaseModel):
         if hasattr(app_config, 'mcp'):
             mcp_config = app_config.mcp
 
-        # Get disabled_skills from agent config if available
-        agent_config = app_config.get_agent_config()
-        disabled_skills = agent_config.disabled_microagents or None
-
         settings = Settings(
             language='en',
             agent=app_config.default_agent,
@@ -180,7 +176,6 @@ class Settings(BaseModel):
             mcp_config=mcp_config,
             search_api_key=app_config.search_api_key,
             max_budget_per_task=app_config.max_budget_per_task,
-            disabled_skills=disabled_skills,
         )
         return settings
 
